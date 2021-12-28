@@ -25,14 +25,12 @@ Invoke-WebRequest -Uri $url -OutFile $dest
 # Source URL
 $url = "https://aka.ms/OneDriveWVD-Installer"
 # Destation file
-mkdir C:\apps\FSlogix
 $dest = "c:\apps\OneDriveSetup.exe"
 # Download the file
 Invoke-WebRequest -Uri $url -OutFile $dest
 # Source URL
 $url = "https://teams.microsoft.com/downloads/desktopurl?env=production&plat=windows&arch=x64&managedInstaller=true&download=true"
 # Destation file
-mkdir C:\apps\FSlogix
 $dest = "c:\apps\Teams.msi"
 # Download the file
 Invoke-WebRequest -Uri $url -OutFile $dest
