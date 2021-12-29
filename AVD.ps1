@@ -41,10 +41,6 @@ Expand-Archive -LiteralPath 'C:\apps\ODT.zip' -DestinationPath C:\ODT
 Set-Location C:\odt\
 .\run.bat
 
-# Run Ninite for Apps
-Set-Location C:\apps\
-.\ninite.exe
-
 # Enable Remote Desktop & Firewall Rule
 Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
 Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
@@ -80,13 +76,16 @@ reg add HKLM\SOFTWARE\Policies\Microsoft\office\16.0\common\officeupdate /v hide
 
 # OneDrive Setup
 Set-Location C:\apps\
-"C:\Apps\OneDriveSetup.exe" /uninstall
+.\OneDriveSetup.exe /uninstall
 REG ADD "HKLM\Software\Microsoft\OneDrive" /v "AllUsersInstall" /t REG_DWORD /d 1 /reg:64
-Run "C:\apps\OneDriveSetup.exe" /allusers
+.\OneDriveSetup.exe /allusers
 REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" /v OneDrive /t REG_SZ /d "C:\Program Files (x86)\Microsoft OneDrive\OneDrive.exe /background" /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\OneDrive" /v "SilentAccountConfig" /t REG_DWORD /d 1 /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\OneDrive" /v "KFMSilentOptIn" /t REG_SZ /d "<your-AzureAdTenantId>" /f
 
 # Teams Install - Machine Install
-reg add "HKLM\SOFTWARE\Microsoft\Teams" /v IsWVDEnvironment /t REG_DWORD /d 1 /f
-msiexec /i C:\apps\Teams.msi /l*v C:\apps\Teams.log ALLUSER=1 ALLUSERS=1
+reg add "HKLM\SOFTWARE\Microsoft\Teams" /v IsWVDEnvironment /t REG_DWORD /d 1 /f msiexec /i C:\apps\Teams.msi /l*v C:\apps\Teams.log ALLUSER=1 ALLUSERS=1
+
+# Run Ninite for Apps
+Set-Location C:\apps\
+.\ninite.exe
