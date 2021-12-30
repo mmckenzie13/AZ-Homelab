@@ -31,7 +31,7 @@
     },
     "publicIpName": {
       "type": "string",
-      "defaultValue": "[variables('vmName''-pub')]",
+      "defaultValue": "[variables('vmName'')]",
       "metadata": {
         "description": "Name for the Public IP used to access the Virtual Machine."
       }
