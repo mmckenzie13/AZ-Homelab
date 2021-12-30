@@ -5,9 +5,6 @@
         "location": {
             "type": "string"
         },
-        "vmName": {
-            "type": "string"
-        },
         "networkInterfaceName": {
             "type": "string"
         },
@@ -134,7 +131,7 @@
                 "storageProfile": {
                     "osDisk": {
                         "createOption": "fromImage",
-                        "name": "[concat(parameters('vmName'),'-osDisk')]",
+                        "name": "[concat(parameters('virtualMachineName'),'-osDisk')]",
                         "managedDisk": {
                             "storageAccountType": "[parameters('osDiskType')]"
                         }
