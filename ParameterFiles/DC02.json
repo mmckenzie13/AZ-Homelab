@@ -6,7 +6,7 @@
             "value": "eastus"
         },
         "networkInterfaceName": {
-            "value": "dc02-nic"
+            "value": "DC02-nic"
         },
         "networkSecurityGroupName": {
             "value": "DC-nsg"
@@ -54,12 +54,6 @@
         },
         "virtualMachineSize": {
             "value": "Standard_B2ms"
-        },
-        "adminUsername": {
-            "value": "pcadmin"
-        },
-        "adminPassword": {
-            "value": null
         },
         "patchMode": {
             "value": "AutomaticByOS"
