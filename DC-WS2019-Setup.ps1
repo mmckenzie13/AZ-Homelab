@@ -10,9 +10,9 @@ New-AzResourceGroupDeployment `
     -ResourceGroupName CORE-RG `
     -adminUsername $adminUsername `
     -adminPassword $adminPassword `
-    -VirtualNetworkID "CORE-VNET"
+    -VirtualNetworkID "CORE-VNET" `
     -TemplateUri "https://raw.githubusercontent.com/mmckenzie13/AZ-Homelab/main/DC-WS2019-Template.json" `
-    -TemplateParameterUri "https://raw.githubusercontent.com/mmckenzie13/AZ-Homelab/main/ParameterFiles/DC01.json" `
+    -TemplateParameterUri "https://raw.githubusercontent.com/mmckenzie13/AZ-Homelab/main/ParameterFiles/DC01.json" 
 
 
 ## Create DC02
