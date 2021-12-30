@@ -10,7 +10,6 @@ New-AzResourceGroupDeployment `
     -adminUsername $adminUsername `
     -adminPassword $adminPassword `
     -dnsLabelPrefix $dnsLabelPrefix `
-    -vmName $vmName
+    -vmName $vmName `
 
 
- (Get-AzVm -ResourceGroupName $resourceGroupName).name

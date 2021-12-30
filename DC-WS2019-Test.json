@@ -31,7 +31,7 @@
     },
     "publicIpName": {
       "type": "string",
-      "defaultValue": "[variables('vmName'')]",
+      "defaultValue": "MyPubIP",
       "metadata": {
         "description": "Name for the Public IP used to access the Virtual Machine."
       }
@@ -100,7 +100,7 @@
   },
   "functions": [],
   "variables": {
-    "nicName": "[variables('vmName''-nic')]",
+    "nicName": "[variables('vmName')]",
     "addressPrefix": "10.100.0.0/16",
     "subnetName": "Subnet",
     "subnetPrefix": "10.100.0.0/24",
