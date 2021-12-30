@@ -45,10 +45,11 @@ New-AzResourceGroupDeployment `
 
 ## Create DC02 with the same credentials
 New-AzResourceGroupDeployment `
-    -Name DC01 `
+    -Name DC02 `
     -ResourceGroupName CORE-RG `
     -adminUsername $adminUsername `
     -adminPassword $adminPassword `
     -virtualNetworkId $vnetId `
     -TemplateFile ".\DC-WS2019-Template.json" `
     -TemplateParameterFile ".\DC02.json"
+    
