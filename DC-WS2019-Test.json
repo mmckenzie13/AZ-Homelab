@@ -102,7 +102,7 @@
   "variables": {
     "nicName": "[variables('vmName')]",
     "addressPrefix": "10.100.0.0/16",
-    "subnetName": "Subnet",
+    "subnetName": "MainSubnet",
     "subnetPrefix": "10.100.0.0/24",
     "virtualNetworkName": "CORE-VNET",
     "networkSecurityGroupName": "DC-NSG"
