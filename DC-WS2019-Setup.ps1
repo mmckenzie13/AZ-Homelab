@@ -6,11 +6,13 @@ $adminUsername = Read-Host -Prompt "Enter the local administrator username"
 $adminPassword = Read-Host -Prompt "Enter the local administrator password" -AsSecureString
 
 New-AzResourceGroupDeployment `
-
-    -TemplateUri "https://raw.githubusercontent.com/mmckenzie13/AZ-Homelab/main/DC-WS2019-Template.json" `
-    -TemplateParameterUri "https://raw.githubusercontent.com/mmckenzie13/AZ-Homelab/main/ParameterFiles/DC01.json" `
+    -Name DC01 `
+    -ResourceGroupName CORE-RG `
     -adminUsername $adminUsername `
     -adminPassword $adminPassword `
+    -VirtualNetworkID "CORE-VNET"
+    -TemplateUri "https://raw.githubusercontent.com/mmckenzie13/AZ-Homelab/main/DC-WS2019-Template.json" `
+    -TemplateParameterUri "https://raw.githubusercontent.com/mmckenzie13/AZ-Homelab/main/ParameterFiles/DC01.json" `
 
 
 ## Create DC02

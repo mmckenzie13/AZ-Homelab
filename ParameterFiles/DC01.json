@@ -55,12 +55,6 @@
         "virtualMachineSize": {
             "value": "Standard_B2ms"
         },
-        "adminUsername": {
-            "value": "pcadmin"
-        },
-        "adminPassword": {
-            "value": null
-        },
         "patchMode": {
             "value": "AutomaticByOS"
         },
