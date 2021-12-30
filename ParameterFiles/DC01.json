@@ -43,6 +43,9 @@
         "virtualMachineName": {
             "value": "DC01"
         },
+        "vmName": {
+            "value": "DC01"
+        },
         "virtualMachineComputerName": {
             "value": "DC01"
         },
