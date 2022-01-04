@@ -1,33 +1,45 @@
 ## Run from Cloud Shell for Quick Access
-
-## Build Core Resource Group
-$ClientPF = "MIT"
+# Build out Resource Groups (RGs)
 $Location = "East US"
-$RG = $ClientPF + "-Core-RG"
-$Tags = @{Empty=$null; Department="Operations"; Type="VM"}
+$RG = "CORE-RG"
+$Tags = @{Empty=$null; Department="Operations"; Type="VNET"}
 New-AzResourceGroup -Name $RG -Location $Location -Tag $Tags
 
-## Build Core VNET
-$VNETPrefix = "10.100.0.0/16"
-$CoreVNETName = $ClientPF + "-Core-VNET"
-New-AzVirtualNetwork -Name $CoreVNETName ResourceGroupName = $RG Location = $Location AddressPrefix = $VNETPrefix
+$RG = "NET-RG"
+New-AzResourceGroup -Name $RG -Location $Location -Tag $Tags
 
-## Core VNET Subnets
-$VSubnetPrimary = "Main"
-$VSubnetGateway = "Gateway"
-az network vnet subnet create -n $VSubnetPrimary --vnet-name $CoreVNETName -g $RG --address-prefixes "10.100.0.0/24"
-az network vnet subnet create -n $VSubnetGateway --vnet-name $CoreVNETName -g $RG --address-prefixes "10.100.3.0/27"
+$RG = "STORE-RG"
+New-AzResourceGroup -Name $RG -Location $Location -Tag $Tags
 
-## Build vFortigate VNET
-$vFVNETPrefix = "10.0.0.0/16"
-$vFCoreVNETName = $ClientPF + "-VF-VNET"
-New-AzVirtualNetwork -Name $vFCoreVNETName ResourceGroupName = $RG Location = $Location AddressPrefix = $vFVNETPrefix
+$RG = "BACKUP-RG"
+New-AzResourceGroup -Name $RG -Location $Location -Tag $Tags
 
-## vFortigate VNET Subnets
-$vFVSubnetExternal = "External"
-$vFVSubnetProtected = "Protected"
-$vFVSubnetInternal = "Internal"
-az network vnet subnet create -n $vFVSubnetExternal --vnet-name $vFCoreVNETName -g $RG --address-prefixes "10.0.0.0/26"
-az network vnet subnet create -n $vFVSubnetProtected --vnet-name $vFCoreVNETName -g $RG --address-prefixes "10.0.2.0/24"
-az network vnet subnet create -n $vFVSubnetInternal --vnet-name $vFCoreVNETName -g $RG --address-prefixes "10.0.1.0/26"
+$RG = "DB-RG"
+New-AzResourceGroup -Name $RG -Location $Location -Tag $Tags
 
+$RG = "VDI-RG"
+New-AzResourceGroup -Name $RG -Location $Location -Tag $Tags
+
+$RG = "APPS-RG"
+New-AzResourceGroup -Name $RG -Location $Location -Tag $Tags
+
+$RG = "WEB-RG"
+New-AzResourceGroup -Name $RG -Location $Location -Tag $Tags
+
+$RG = "DEV-RG"
+New-AzResourceGroup -Name $RG -Location $Location -Tag $Tags
+
+## Build Core VNET & Core VNET Subnets
+$Location = "East US"
+$RG = "NET-RG"
+$MAINSN = New-AzVirtualNetworkSubnetConfig -Name MainSubnet -AddressPrefix "10.100.0.0/24"
+$VNGSN  = New-AzVirtualNetworkSubnetConfig -Name GatewaySubnet  -AddressPrefix "10.100.3.0/27"
+New-AzVirtualNetwork -Name "CORE-VNET" -ResourceGroupName $RG -Location $Location -AddressPrefix "10.100.0.0/22" -Subnet $MAINSN,$VNGSN
+
+## Build vFortigate VNET & Subnets
+$Location = "East US"
+$RG = "NET-RG"
+$vFSSNExternal = New-AzVirtualNetworkSubnetConfig -Name External -AddressPrefix "10.0.0.0/26"
+$vFSSNProtected = New-AzVirtualNetworkSubnetConfig -Name Protected -AddressPrefix "10.0.2.0/24"
+$vFSSNInternal = New-AzVirtualNetworkSubnetConfig -Name Internal -AddressPrefix "10.0.1.0/24"
+New-AzVirtualNetwork -Name "vFortigate-VNET" -ResourceGroupName $RG -Location $Location -AddressPrefix "10.0.0.0/22" -Subnet $vFSSNExternal, $vFSSNProtected, $vFSSNInternal
