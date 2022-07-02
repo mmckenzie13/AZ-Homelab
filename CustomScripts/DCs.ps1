@@ -44,7 +44,7 @@ $ADDomain = (get-addomain).Forest
 Get-ADForest $ADDomain| ft DomainNamingMaster, SchemaMaster
 Get-ADDomain $ADDomain | ft InfrastructureMaster, PDCEmulator, RIDMaster
 
-# Enable Recycle Bin for 60 days
+# Enable Recycle Bin for 60 days if new domain
 $ADForest = (get-addomain).Forest
 $ADDomain = (get-addomain).DistinguishedName
 $ADIdentity = ("CN=Configuration," + $ADDomain)
