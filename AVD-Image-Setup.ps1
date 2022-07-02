@@ -4,15 +4,16 @@ Set-Location C:\apps\
 
 ## Download Files
 # Source URL
-$url = "https://mattmckenzie.co/setup/ODT-AVD.zip"
+$url = "https://github.com/mmckenzie13/AZ-Homelab/blob/main/Packages/ODT-AVD.zip"
 # Destation file
 $dest = "c:\apps\ODT.zip"
 # Download the file
 Invoke-WebRequest -Uri $url -OutFile $dest
+## Download Files
 # Source URL
-$url = "https://mattmckenzie.co/setup/ninite.exe"
+$url = "https://github.com/mmckenzie13/AZ-Homelab/blob/main/Packages/ODT-AVDx32.zip"
 # Destation file
-$dest = "c:\apps\ninite.exe"
+$dest = "c:\apps\ODTx32.zip"
 # Download the file
 Invoke-WebRequest -Uri $url -OutFile $dest
 # Source URL
@@ -36,24 +37,25 @@ $dest = "c:\apps\Teams.msi"
 Invoke-WebRequest -Uri $url -OutFile $dest
 
 
-# Extract ODT & Install Office 365
+# Extract ODT & Install Office 365 x64
 Expand-Archive -LiteralPath 'C:\apps\ODT.zip' -DestinationPath C:\ODT
 Set-Location C:\odt\
 .\run.bat
+
+# Extract ODT & Install Office 365 x32 if needed
+#Expand-Archive -LiteralPath 'C:\apps\ODT.zip' -DestinationPath C:\ODT
+#Set-Location C:\odt\
+#.\run.bat
 
 # Enable Remote Desktop & Firewall Rule
 Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
 Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
-# FSLogix Registry
+# FSLogix Install
 Expand-Archive -LiteralPath 'C:\apps\fslogix\fslogix.zip' -DestinationPath C:\apps\fslogix\
 Set-Location C:\apps\FSlogix\x64\Release
 .\FSLogixAppsSetup.exe /quiet
-$newValue = New-ItemProperty -Path "HKLM:\SOFTWARE\ContosoCompany\" -Name 'HereString' -PropertyType MultiString -Value @"
-This is text which contains newlines
-It can also contain "quoted" strings
-"@
-$newValue.multistring
+
 
 # Timezone Redirection
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v fEnableTimeZoneRedirection /t REG_DWORD /d 1 /f
@@ -86,7 +88,3 @@ REG ADD "HKLM\SOFTWARE\Policies\Microsoft\OneDrive" /v "KFMSilentOptIn" /t REG_S
 # Teams Install - Machine Install
 msiexec /i C:\apps\Teams.msi /l*v C:\apps\Teams.log ALLUSER=1 ALLUSERS=1
 reg add "HKLM\SOFTWARE\Microsoft\Teams" /v IsWVDEnvironment /t REG_DWORD /d 1 /f 
-
-# Run Ninite for Apps
-Set-Location C:\apps\
-.\ninite.exe
