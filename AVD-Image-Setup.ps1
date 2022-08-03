@@ -1,3 +1,5 @@
+## This is for a Market Place Image Multi User that doesn't include Office, OneDrive, Teams, and FSLogix. 
+
 ## Make Working Directory
 mkdir C:\apps
 Set-Location C:\apps\
@@ -24,7 +26,7 @@ $dest = "c:\apps\FSLogix\FSLogix.zip"
 # Download the file
 Invoke-WebRequest -Uri $url -OutFile $dest
 # Source URL
-$url = "https://aka.ms/OneDriveWVD-Installer"
+$url = "https://go.microsoft.com/fwlink/?linkid=844652"
 # Destation file
 $dest = "c:\apps\OneDriveSetup.exe"
 # Download the file
