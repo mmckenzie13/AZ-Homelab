@@ -1,4 +1,5 @@
-## Set Working Directory
+## Make / Set Working Directory
+mkdir C:\apps
 Set-Location C:\apps\
 
 ## Download Updated Files
