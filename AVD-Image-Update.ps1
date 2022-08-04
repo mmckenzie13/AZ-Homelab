@@ -2,6 +2,9 @@
 mkdir C:\apps
 Set-Location C:\apps\
 
+# Clear existing Files under C:\Apps
+get-childitem C:\apps\* -Recurse | Remove-item -Confirm:$false -Recurse
+
 ## Download Updated Files
 
 # Source URL
@@ -30,11 +33,12 @@ Invoke-WebRequest -Uri $url -OutFile $dest
 # OneDrive Setup - Uninstall Previous, Reinstall Latest
 Set-Location C:\apps\
 .\OneDriveSetup.exe /uninstall
-REG ADD "HKLM\Software\Microsoft\OneDrive" /v "AllUsersInstall" /t REG_DWORD /d 1 /reg:64
+Start-Sleep -Seconds 15
 .\OneDriveSetup.exe /allusers
 
 # Teams Install - Machine Install - Uninstall Previous, Reinstall Latest
 msiexec /passive /x C:\apps\Teams.msi /l*v C:\apps\Teams.log
+Start-Sleep -Seconds 30
 msiexec /i C:\apps\Teams.msi /l*v C:\apps\Teams.log ALLUSER=1 ALLUSERS=1
-reg add "HKLM\SOFTWARE\Microsoft\Teams" /v IsWVDEnvironment /t REG_DWORD /d 1 /f 
+
 
