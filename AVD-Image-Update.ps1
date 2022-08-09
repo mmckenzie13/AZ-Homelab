@@ -27,9 +27,6 @@ $dest = "c:\apps\Teams.msi"
 # Download the file
 Invoke-WebRequest -Uri $url -OutFile $dest
 
-# FSLogix Registry - Uncomment if patch needed. Not updated often. 
-#.\FSLogixAppsSetup.exe /quiet
-
 # OneDrive Setup - Uninstall Previous, Reinstall Latest
 Set-Location C:\apps\
 .\OneDriveSetup.exe /uninstall
@@ -41,4 +38,8 @@ msiexec /passive /x C:\apps\Teams.msi /l*v C:\apps\Teams.log
 Start-Sleep -Seconds 30
 msiexec /i C:\apps\Teams.msi /l*v C:\apps\Teams.log ALLUSER=1 ALLUSERS=1
 
-
+Start-Sleep -Seconds 60
+# FSLogix Install (Not Updated Often, uncomment to update, will restart the session host.)
+Expand-Archive -LiteralPath 'C:\apps\fslogix\fslogix.zip' -DestinationPath C:\apps\fslogix\
+Set-Location C:\apps\FSlogix\x64\Release
+#.\FSLogixAppsSetup.exe /quiet
