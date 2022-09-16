@@ -6,7 +6,7 @@ Set-Location C:\apps\
 
 ## Download Files
 # Source URL
-$url = "https://github.com/mmckenzie13/AZ-Homelab/blob/main/Packages/ODT-AVD.zip"
+$url = "https://mattmckenzie.co/setup/ODT-AVD.zip"
 # Destation file
 $dest = "c:\apps\ODT.zip"
 # Download the file
