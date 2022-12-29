@@ -6,14 +6,14 @@ Set-Location C:\apps\
 
 ## Download Files
 # Source URL
-$url = "https://github.com/mmckenzie13/AZ-Homelab/blob/main/Packages/ODT-AVD.zip"
+$url = "https://mattmckenzie.co/setup/ODT-AVD.zip"
 # Destation file
 $dest = "c:\apps\ODT.zip"
 # Download the file
 Invoke-WebRequest -Uri $url -OutFile $dest
 ## Download Files
 # Source URL
-$url = "https://github.com/mmckenzie13/AZ-Homelab/blob/main/Packages/ODT-AVDx32.zip"
+$url = "https://mattmckenzie.co/setup/ODT-AVDx32.zip"
 # Destation file
 $dest = "c:\apps\ODTx32.zip"
 # Download the file
