@@ -80,7 +80,7 @@ reg add HKLM\SOFTWARE\Policies\Microsoft\office\16.0\common\officeupdate /v hide
 
 # OneDrive Setup
 Set-Location C:\apps\
-.\OneDriveSetup.exe /uninstall
+#.\OneDriveSetup.exe /uninstall
 REG ADD "HKLM\Software\Microsoft\OneDrive" /v "AllUsersInstall" /t REG_DWORD /d 1 /reg:64
 .\OneDriveSetup.exe /allusers
 REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" /v OneDrive /t REG_SZ /d "C:\Program Files (x86)\Microsoft OneDrive\OneDrive.exe /background" /f
