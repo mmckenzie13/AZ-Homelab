@@ -1,34 +1,50 @@
 #description: Set NSG to block SMB
-#tags: Nerdio, Preview
+#tags: Github, WIP
 
 
 
 # Connect to Azure
 connect-azAccount
 
-# Variables
-$subscriptionID = $AzureSubscriptionId
-$rgname = $AzureResourceGroupName
-$vmname = $AzureVMName
+try {
+    # Get the VM and its current data disks
+    $VM = Get-AzVM -Name $AzureVMName -ResourceGroupName $AzureResourceGroupName
+    $RG = Get-Azresourcegroup -name $AzureResourceGroupName
+    $Region = $RG.Location
 
-#Log in to your subscription
-Set-AzContext -Subscription $subscriptionID
+    # Query for NIC attached to VM, pass into $NIC
+    $NIC =  Get-AzNetworkInterface -resourceID $VM.NetworkProfile.NetworkInterfaces.Id
 
-# Check if VM is already in correct AZ
-$GetVMinfo = Get-AzVM -ResourceGroupName $rgname -Name $vmName
+    # Detect if VM already has NSG for vNIC
+    
+    if($NIC.networksecuritygrouptext -eq $null)
+    {
+        Write-Output "INFO: This VM already has an NSG. No action needed, stopping script."
+    }
+    if($NIC.networksecuritygrouptext -ne $null) 
+    {
+        <# Create a new NSG #>
+        $NSGName = ($VM.name + "-nsg") 
+        New-AzNetworkSecurityGroup -Name $NSGName -ResourceGroupName $AzureResourceGroupName -Location $Region
+        # Assign new NSG to VM NIC
+        # $nic = Get-AzNetworkInterface -ResourceGroupName "ResourceGroup1" -Name "NetworkInterface1"
+        $nsg = Get-AzNetworkSecurityGroup -ResourceGroupName $AzureResourceGroupName -Name $NSGName
+        $nic.NetworkSecurityGroup = $nsg
+        $nic | Set-AzNetworkInterface
+        # Add NSG Rule
+        $port=445
+        $rulename="IB-SMB-Block"
+        # Get the NSG resource
+        $nsg = Get-AzNetworkSecurityGroup -Name $nsgname -ResourceGroupName $AzureResourceGroupName
+        # Add the inbound security rule.
+        $nsg | Add-AzNetworkSecurityRuleConfig -Name $rulename -Description "Block Inbound SMB" -Access Deny `
+        -Protocol * -Direction Inbound -Priority 200 -SourceAddressPrefix "*" -SourcePortRange * `
+        -DestinationAddressPrefix * -DestinationPortRange $port
+        # Update the NSG.
+        $nsg | Set-AzNetworkSecurityGroup
 
-# Get NSG if it exists
-Get-AzNetworkSecurityGroup | format-table Name, Location, ResourceGroupName, ProvisioningState, ResourceGuid
-
-# Create NSG if one doesn't exist
-New-AzNetworkSecurityGroup -Name myNSG -ResourceGroupName myResourceGroup  -Location  eastus
-
-# Create security rules
-## Place the network security group configuration into a variable. ##
-$networkSecurityGroup = Get-AzNetworkSecurityGroup -Name myNSG -ResourceGroupName myResourceGroup
-## Create the security rule. ##
-Add-AzNetworkSecurityRuleConfig -Name RDP-rule -NetworkSecurityGroup $networkSecurityGroup `
--Description "Allow RDP" -Access Allow -Protocol Tcp -Direction Inbound -Priority 300 `
--SourceAddressPrefix * -SourcePortRange * -DestinationAddressPrefix * -DestinationPortRange 3389
-## Updates the network security group. ##
-Set-AzNetworkSecurityGroup -NetworkSecurityGroup $networkSecurityGroup
+    }
+    } # End of Try
+catch {
+    <#Do this if a terminating exception happens#>
+}
