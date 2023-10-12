@@ -37,7 +37,7 @@ try {
         # Get the NSG resource
         $nsg = Get-AzNetworkSecurityGroup -Name $nsgname -ResourceGroupName $AzureResourceGroupName
         # Add the inbound security rule.
-        $nsg | Add-AzNetworkSecurityRuleConfig -Name $rulename -Description "Block Inbound SMB" -Access Deny `
+        $nsg | Add-AzNetworkSecurityRuleConfig -Name $rulename -Description "IB-Block-SMB" -Access Deny `
         -Protocol * -Direction Inbound -Priority 200 -SourceAddressPrefix "*" -SourcePortRange * `
         -DestinationAddressPrefix * -DestinationPortRange $port
         # Update the NSG.
