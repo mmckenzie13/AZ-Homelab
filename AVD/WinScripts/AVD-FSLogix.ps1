@@ -15,7 +15,8 @@ $url = "https://aka.ms/fslogix/download"
 mkdir C:\apps\FSlogix
 $dest = "c:\apps\FSLogix\FSLogix.zip"
 # Download the file
-Invoke-WebRequest -Uri $url -OutFile $dest
+Start-BitsTransfer -Source $url -Destination $dest 
+# Invoke-WebRequest -Uri $url -OutFile $dest # Slower Method
 
 # FSLogix Install (Not Updated Often, uncomment to update, will restart the session host.)
 Expand-Archive -LiteralPath 'C:\apps\fslogix\fslogix.zip' -DestinationPath C:\apps\fslogix\
