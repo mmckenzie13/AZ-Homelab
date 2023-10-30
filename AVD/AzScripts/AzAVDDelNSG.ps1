@@ -1,8 +1,8 @@
-#description: Creates an NSG for a VM if none exists. Associates the vNIC. Adds rule to block Inbound SMB. 
-#tags: DEC
+#description: Deletes associated NSG for AVD Session Host. To be used at decomm / reimage.
+#tags: BIT
 
 <# Notes:
-Creates an NSG for a VM if none exists. Associates the vNIC. Adds rule to block Inbound SMB. 
+Deletes associated NSG for AVD Session Host. To be used at decomm / reimage.
 #>
 
 # Connect to Azure
