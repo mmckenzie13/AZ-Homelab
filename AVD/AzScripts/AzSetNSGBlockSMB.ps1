@@ -11,6 +11,9 @@ try {
     $VM = Get-AzVM -Name $AzureVMName -ResourceGroupName $AzureResourceGroupName
     $RG = Get-Azresourcegroup -name $AzureResourceGroupName
     $Region = $RG.Location
+    $Tags = get-aztag -resourceid $VM.id
+    $Tags = $Tags.properties.TagsProperty
+
 
     # Query for NIC attached to VM, pass into $NIC
     $NIC =  Get-AzNetworkInterface -resourceID $VM.NetworkProfile.NetworkInterfaces.Id
@@ -25,7 +28,7 @@ try {
     {
         <# Create a new NSG #>
         $NSGName = ($VM.name + "-nsg") 
-        New-AzNetworkSecurityGroup -Name $NSGName -ResourceGroupName $AzureResourceGroupName -Location $Region
+        New-AzNetworkSecurityGroup -Name $NSGName -ResourceGroupName $AzureResourceGroupName -Location $Region -Tag $Tags
         # Assign new NSG to VM NIC
         # $nic = Get-AzNetworkInterface -ResourceGroupName "ResourceGroup1" -Name "NetworkInterface1"
         $nsg = Get-AzNetworkSecurityGroup -ResourceGroupName $AzureResourceGroupName -Name $NSGName
@@ -37,7 +40,7 @@ try {
         # Get the NSG resource
         $nsg = Get-AzNetworkSecurityGroup -Name $nsgname -ResourceGroupName $AzureResourceGroupName
         # Add the inbound security rule.
-        $nsg | Add-AzNetworkSecurityRuleConfig -Name $rulename -Description "IB-Block-SMB" -Access Deny `
+        $nsg | Add-AzNetworkSecurityRuleConfig -Name $rulename -Description "Block Inbound SMB" -Access Deny `
         -Protocol * -Direction Inbound -Priority 200 -SourceAddressPrefix "*" -SourcePortRange * `
         -DestinationAddressPrefix * -DestinationPortRange $port
         # Update the NSG.
