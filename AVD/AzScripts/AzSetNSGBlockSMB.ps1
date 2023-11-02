@@ -1,5 +1,5 @@
 #description: Set NSG to block SMB
-#tags: Github, WIP
+#tags: Github, BIT
 
 
 
