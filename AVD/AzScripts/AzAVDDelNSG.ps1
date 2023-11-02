@@ -14,6 +14,11 @@ try {
     $RG = Get-Azresourcegroup -name $AzureResourceGroupName
     
     $NSGName = ($VM.name + "-nsg")
+     # Query for NIC attached to VM, pass into $NIC
+     $NIC =  Get-AzNetworkInterface -resourceID $VM.NetworkProfile.NetworkInterfaces.Id
+    #Clear NIC's NSG
+     $nic.NetworkSecurityGroup = $null
+    $nic | Set-AzNetworkInterface
 
     # Remove NSG
     Remove-AzNetworkSecurityGroup -Name $NSGName -ResourceGroupName $AzureResourceGroupName -force
